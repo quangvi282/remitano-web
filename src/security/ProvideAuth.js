@@ -10,6 +10,7 @@ function useProvideAuth() {
     const [loader, showLoader, hideLoader] = useFullPageLoader();
 
     const signIn = (data) => {
+        saveLoginInfo(data)
         setToken(data.token);
         setTimeout(data,1000);
     };

@@ -10,8 +10,9 @@ let subscribers = [];
 axios.interceptors.request.use((config) => {
         // add access token to requests
         const basePath = getBasePath(config.url);
+        
         if (!whitelist.includes(basePath) && localStorage.getItem('token') !== null) {
-            config.headers.token = `${localStorage.getItem('token')}`;
+            config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
         }
         return config;
     }, function (error) {
@@ -75,7 +76,7 @@ function onAccessTokenFetched(accessToken) {
 }
 
 function getBasePath(url) {
-    let urlPath = url.replace(API_BASE_URL, '');
+    let urlPath = url.includes(API_BASE_URL) ? url.replace(API_BASE_URL, '') : 'oembed';
     if (urlPath.startsWith('/')) {
         urlPath = urlPath.slice(1);
     }
