@@ -1,0 +1,42 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Sora&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;500&display=swap');
+* {
+  /* font-family: 'Encode Sans Expanded', sans-serif; */
+  font-family: 'Raleway', sans-serif;
+  box-sizing: border-box;
+  padding: 0;
+}
+
+
+/* .p-col-1, .p-col-2, .p-col-3, .p-col-4, .p-col-5, .p-col-6, .p-col-7, .p-col-8, .p-col-9, .p-col-10, .p-col-11, .p-col-12  {
+  padding: 0px!important;
+} */
+
+.p-grid {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.p-button {
+    color: #ffffff!important;
+    background: #DB4F33!important;
+    border: none!important;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.25)!important;
+    /* padding: 0.5rem 1rem;
+    font-size: 1rem; */
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s!important;
+    border-radius: 0px!important;
+    font-family: 'Corbel'!important;
+    font-style: normal!important;
+    font-weight: bold!important;
+    font-size: 16px!important;
+    line-height: 28px!important;
+    text-transform: 'capitalize'!important;
+    padding-left: 15px!important;
+    padding-right: 15px!important;
+}
+
+.p-button:hover {
+  background: #ff9c00!important;
+  transition: 200ms ease-in;
+}

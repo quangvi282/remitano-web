@@ -1,0 +1,95 @@
+.signup-container {
+    max-width: 1280px;
+}
+
+.signup-container .signup-text{
+    font-family: Zilla Slab;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 53px;
+    line-height: 120%;
+    text-transform: uppercase;
+
+    color: #6E2E40;
+}
+
+.signup-container .signup-title{
+    font-family: Raleway;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 120%;
+    text-align: right;
+    /* identical to box height, or 140% */
+
+
+    /* black 70 */
+
+    color: #5F6377;
+    margin-bottom: 10;
+}
+
+.signup-container .fullname {
+    display: grid;
+}
+
+.signup-container .name {
+    display: none;
+}
+
+.signup-container .signup-button-share {
+    width: 100%;
+    background: transparent!important;
+    box-shadow: none!important;
+    color: #DB4F33!important;
+    border: 4px solid #DB4F33!important;
+}
+
+.signup-container .signup-button {
+    width: 100%;
+}
+
+.signup-container .signup-input.p-inputtext {
+    width: 100%;
+}
+
+.signup-container .signup-input.p-password {
+    width: 100%;
+}
+.signup-container .signup-input.p-password .p-inputtext {
+    width: 100%;
+}
+
+.signup-container .signup-input.p-dropdown {
+    width: 100%;
+}
+
+.signup-hr {
+    height: 4px; 
+    width: 150px; 
+    background: #DB4F33;
+}
+
+@media screen and (max-width: 768px) {
+
+    .signup-container .fullname {
+        display: none;
+    }
+
+    .signup-container .name {
+        display: grid;
+    }
+
+    .signup-container .signup-input.p-dropdown {
+        width: 100%;
+    }
+
+    .signup-container .signup-text{ 
+        font-size: 30px;
+    }
+
+    .signup-container .signup-title{
+        text-align: left;
+    }
+    
+}

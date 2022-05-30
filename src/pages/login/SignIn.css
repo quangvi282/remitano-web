@@ -1,0 +1,101 @@
+.signin-container {
+    background: rgba(236, 237, 237, 0.1);
+    border: 2px solid #ECEDED;
+    box-sizing: border-box;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    max-width: 700px;
+}
+
+.signin-container .signin-text{
+    font-family: Zilla Slab;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 53px;
+    line-height: 120%;
+    text-transform: uppercase;
+
+    color: #6E2E40;
+}
+
+.signin-container .signin-errors {
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    color: #f00e0e;
+}
+
+.signin-container .signin-title{
+    font-family: Raleway;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 120%;
+    /* identical to box height, or 140% */
+
+
+    /* black 70 */
+
+    color: #5F6377;
+    margin-bottom: 10;
+}
+
+.signin-container .signin-button {
+    width: 100%;
+}
+
+.signin-container .signin-input.p-inputtext {
+    width: 100%;
+}
+
+.signin-container .signin-input.p-password {
+    width: 100%;
+}
+.signin-container .signin-input.p-password .p-inputtext {
+    width: 100%;
+}
+
+.signin-container .signin-button-fb {
+    width: 80%;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.084), 0px 2px 3px rgba(0, 0, 0, 0.168);
+    border-radius: 10px!important;
+}
+
+.signin-container .signin-button-fb.p-button {
+    background: #1877F2!important;
+    color: #fff!important;
+}
+
+.signin-container .signin-button-fb.p-button:hover {
+    background: #03408f!important;
+}
+
+.signin-container .signin-button-gle {
+    width: 80%;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.084), 0px 2px 3px rgba(0, 0, 0, 0.168);
+    border-radius: 10px!important;
+}
+
+.signin-container .signin-button-gle.p-button {
+    background: #FFFFFF!important;
+    color: #34A853!important;
+}
+
+.signin-container .signin-button-gle.p-button:hover {
+    background: #b9b6b6!important;
+}
+
+
+.signin-container .signin-button-apl {
+    width: 80%;
+    box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.084), 0px 2px 3px rgba(0, 0, 0, 0.168);
+    border-radius: 10px!important;
+}
+
+.signin-container .signin-button-apl.p-button {
+    background: #000000!important;
+    color: #fff!important;
+}
+
+.signin-container .signin-button-apl.p-button:hover {
+    background: #4d4c4c!important;
+}
