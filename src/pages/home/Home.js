@@ -169,7 +169,8 @@ const Home = () => {
                 <div className="p-formgroup-inline" style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                     <span style={{fontSize: 20, fontWeight: 'bold', marginRight: 10}}>Welcome {email}</span>
                     <Button className='share-button' type="button" label="Share a movie"  style={{margin: 5}} 
-                    onClick={(e) => requestLogout(e)}/>
+                    // onClick={(e) => requestLogout(e)}
+                    />
                     <Button type="button" label="Logout"  style={{margin: 5}} 
                     onClick={(e) => requestLogout(e)}/>
                 </div>}
