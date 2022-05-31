@@ -14,4 +14,11 @@ export class UrlShareServices  {
         return axios.get(`http://youtube.com/oembed?url=${url}&format=json`)
         .then(res => res.data).catch(error => console.log(error));
     }
+
+    updateShared(url, thumbnail, title) {
+        return axios.post(`${API_BASE_URL}/api/share/update`, null, {
+            params: {url, thumbnail, title}
+        })
+        .then(res => res.data).catch(error => console.log(error))
+    }
 }

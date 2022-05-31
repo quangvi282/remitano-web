@@ -16,7 +16,8 @@ const Home = () => {
     let { from } = location.state || { from: { pathname: "/" } };
 
     const  {token, signIn, signOut, showLoader, hideLoader} = context;
-    const [yotus, setYotus] = useState([]);
+    const [total, setTotal] = useState(0);
+    const [urlShareds, setUrlShareds] = useState([]);
 
     const initialState = {
         email: null,
@@ -29,7 +30,6 @@ const Home = () => {
             return initialState;
         }
 
-        console.log(action)
         const result = {...state};
         result[action.type] = action.value;
         return result;
@@ -39,29 +39,50 @@ const Home = () => {
     const { email, password, errors } = state;
 
 
-    const accountServices = new AccountServices();
+     const accountServices = new AccountServices();
     const urlshareServices = new UrlShareServices();
 
     useEffect(() => {
-        if (token !== null) {
-            // getSharing('https://youtu.be/PJJ_pRqvtCs')
-        }
         getUrlList("", 0, 10, 'title', 'desc');
     }, [token]);
 
-    const getSharing = (url) => {
+    const shareAction = (url) => {
+        showLoader();
         urlshareServices.getMetaData(url)
         .then(data => {
             if (data) {
-                console.log(data)
+                shareMovieRequest(url, data.thumbnail_url, data.title)
+            } else {
+                dispatch({type: 'errors', value: 'Url isnot exist!'})
+                hideLoader();
             }
         })
     }
 
+    const shareMovieRequest = (url, thumbnail, title) => {
+        showLoader();
+        urlshareServices.updateShared(url, thumbnail, title)
+        .then(data => {
+            if (data && data.status && data.status.code === 1) {
+
+            } else {
+                dispatch({type: 'errors', value: data.status.message})
+            }
+            hideLoader()
+        })
+    }
+
     const getUrlList = (search, page, size, column, order) => {
+        showLoader();
         urlshareServices.getSharedList(search, page, size, column, order)
         .then(data => {
-            console.log(data)
+            if (data && data.status && data.status.code === 1) {
+                setUrlShareds(data.urlSharedList);   
+                setTotal(data.total)
+            } else {
+                dispatch({type: 'errors', value: data.status.message})
+            }
+            hideLoader()
         })
     }
 
@@ -77,15 +98,19 @@ const Home = () => {
             if (data && data.status && data.status.code === 1) {
                 signIn(data);
                 dispatch({type: 'reset'})
-                history.push("/")
+                dispatch({type: 'email', value: email});
             } else {
-                console.log(data)
                 dispatch({type: 'errors', value: data.status.message})
-                
             }
             hideLoader();
         })
 
+    }
+
+    const requestLogout = (e) => {
+        e.preventDefault();
+        dispatch({type: 'reset'});
+        signOut();
     }
 
     const requestRegister = (email, password) => {
@@ -95,8 +120,7 @@ const Home = () => {
             if (data && data.status && data.status.code === 1) {
                 requestLogin(email, password);
             } else {
-
-                
+                dispatch({type: 'errors', value: data.status.message})
             }
             hideLoader()
         })
@@ -130,16 +154,24 @@ const Home = () => {
                 <><div className="p-formgroup-inline" style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                     <InputText value={email} onChange={onChange} name="email" placeholder="Email" style={{margin: 5}}/>
                     <Password value={password} onChange={onChange} name="password" placeholder="Password" style={{margin: 5}} />
-                    <Button type="button" label="Login" style={{margin: 5}} onClick={() => requestLogin(email, password)}/>
+                    <Button type="button" label="Login" style={{margin: 5}} onClick={(e) => {
+                        e.preventDefault();
+                        requestLogin(email, password)
+                    }}/>
                     <Button type="button" label="Rigister"  style={{margin: 5}} 
-                    onClick={() => requestRegister(email, password)}/>
+                    onClick={(e) => {
+                        e.preventDefault();
+                        requestRegister(email, password);
+                    }}/>
                 </div> <div className="p-col-12 p-text-center home-errors">
                             {errors}
                         </div></>: 
                 <div className="p-formgroup-inline" style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                    <span style={{fontSize: 24, fontWeight: 'bold'}}>Welcome</span>
+                    <span style={{fontSize: 20, fontWeight: 'bold', marginRight: 10}}>Welcome {email}</span>
+                    <Button className='share-button' type="button" label="Share a movie"  style={{margin: 5}} 
+                    onClick={(e) => requestLogout(e)}/>
                     <Button type="button" label="Logout"  style={{margin: 5}} 
-                    onClick={() => signOut()}/>
+                    onClick={(e) => requestLogout(e)}/>
                 </div>}
             </div>
             

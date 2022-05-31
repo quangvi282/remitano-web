@@ -3,3 +3,13 @@
     margin-top: 0.5rem;
     color: #f00e0e;
 }
+
+.home-container .share-button {
+    background: #41225d!important;
+    color: #fff!important;
+}
+
+.home-container .share-button:hover {
+    background: #fff!important;
+    color: #814ead!important;
+}
