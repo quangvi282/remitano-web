@@ -9,16 +9,16 @@ function useProvideAuth() {
     const [token, setToken] = useState(localStorage.getItem("token"));
     const [loader, showLoader, hideLoader] = useFullPageLoader();
 
-    const signIn = (data) => {
+    const signIn = async (data) => {
         saveLoginInfo(data)
         setToken(data.token);
-        setTimeout(data,1000);
+        await new Promise(resolve => setTimeout(resolve, 1000));
     };
 
-    const signOut = cb => {
+    const signOut = async cb => {
         logOut()
         setToken(null);
-        setTimeout(cb, 1000); 
+        await new Promise(resolve => setTimeout(resolve, 1000));
     };
 
     return {

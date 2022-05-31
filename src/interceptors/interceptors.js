@@ -10,7 +10,6 @@ let subscribers = [];
 axios.interceptors.request.use((config) => {
         // add access token to requests
         const basePath = getBasePath(config.url);
-        
         if (!whitelist.includes(basePath) && localStorage.getItem('token') !== null) {
             config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
         }
@@ -62,7 +61,8 @@ axios.interceptors.response.use((response) => {
                     // }
                     // break;
                     localStorage.clear();
-                    window.location.push("/");
+                    let responseMess = {data : {status: {code: res.status, message: res.statusText}}}
+                    return responseMess;
                 default:
             }
         }

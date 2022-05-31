@@ -3,8 +3,9 @@ import { API_BASE_URL } from "../../constants/constants";
 
 export class UrlShareServices  {
 
-    getSharedList(search, page, size, sort) {
-        return axios.get(`${API_BASE_URL}/api/url/list`, {
+    getSharedList(search, page, size, column, order) {
+        let sort = column + "," + order
+        return axios.get(`${API_BASE_URL}/url/shared`, {
             params: {search, page, size, sort}
         }).then(res => res.data).catch(error => console.log(error));
     }

@@ -20,7 +20,8 @@ const Home = () => {
 
     const initialState = {
         email: null,
-        password: null
+        password: null,
+        errors: null
     }
 
     const reducer = (state, action) => {
@@ -28,27 +29,25 @@ const Home = () => {
             return initialState;
         }
 
+        console.log(action)
         const result = {...state};
         result[action.type] = action.value;
         return result;
     }
 
     const [state, dispatch] = useReducer(reducer, initialState);
-    const { email, password } = state;
+    const { email, password, errors } = state;
 
 
     const accountServices = new AccountServices();
     const urlshareServices = new UrlShareServices();
 
     useEffect(() => {
-        console.log(token)
         if (token !== null) {
-            console.log(token)
-            // loadEvents(0, 10, '', "eventEnd", "desc")
-            // loadYearStatsUser();
-            getSharing('https://youtu.be/FLvOPMCvkEM')
+            // getSharing('https://youtu.be/PJJ_pRqvtCs')
         }
-    }, []);
+        getUrlList("", 0, 10, 'title', 'desc');
+    }, [token]);
 
     const getSharing = (url) => {
         urlshareServices.getMetaData(url)
@@ -59,6 +58,13 @@ const Home = () => {
         })
     }
 
+    const getUrlList = (search, page, size, column, order) => {
+        urlshareServices.getSharedList(search, page, size, column, order)
+        .then(data => {
+            console.log(data)
+        })
+    }
+
     const onChange = (e) => {
         const { name, value } = e.target;
         dispatch({ type: name, value });
@@ -66,23 +72,20 @@ const Home = () => {
 
     const requestLogin = (email, password) => {
         showLoader()
-        // accountServices.login(email, password)
-        // .then(data => {
-        //     if (data && data.status && data.status.code === 1) {
-        //         signIn(data.token);
-        //         history.push("/");
-        //         setEmail(null);
-        // dispatch({type: 'reset'})
-        //     } else {
-
+        accountServices.login(email, password)
+        .then(data => {
+            if (data && data.status && data.status.code === 1) {
+                signIn(data);
+                dispatch({type: 'reset'})
+                history.push("/")
+            } else {
+                console.log(data)
+                dispatch({type: 'errors', value: data.status.message})
                 
-        //     }
-        //     hideLoader()
-        // })
-        signIn({token: 'sadsa'})
-        hideLoader();
-        dispatch({type: 'reset'})
-        // history.push("/home")
+            }
+            hideLoader();
+        })
+
     }
 
     const requestRegister = (email, password) => {
@@ -124,13 +127,15 @@ const Home = () => {
                 float: 'right',
             }}>
                 {token === null ?
-                <div className="p-formgroup-inline" style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                    <InputText value={email} onChange={onChange} type="text" placeholder="Email" style={{margin: 5}}/>
-                    <Password value={password} onChange={onChange} placeholder="Password" style={{margin: 5}} />
+                <><div className="p-formgroup-inline" style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <InputText value={email} onChange={onChange} name="email" placeholder="Email" style={{margin: 5}}/>
+                    <Password value={password} onChange={onChange} name="password" placeholder="Password" style={{margin: 5}} />
                     <Button type="button" label="Login" style={{margin: 5}} onClick={() => requestLogin(email, password)}/>
                     <Button type="button" label="Rigister"  style={{margin: 5}} 
                     onClick={() => requestRegister(email, password)}/>
-                </div> : 
+                </div> <div className="p-col-12 p-text-center home-errors">
+                            {errors}
+                        </div></>: 
                 <div className="p-formgroup-inline" style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                     <span style={{fontSize: 24, fontWeight: 'bold'}}>Welcome</span>
                     <Button type="button" label="Logout"  style={{margin: 5}} 
