@@ -11,7 +11,7 @@ export class UrlShareServices  {
     }
 
     getMetaData (url) {
-        return axios.get(`http://youtube.com/oembed?url=${url}&format=json`)
+        return axios.get(`https://youtube.com/oembed?url=${url}&format=json`)
         .then(res => res.data).catch(error => console.log(error));
     }
 
