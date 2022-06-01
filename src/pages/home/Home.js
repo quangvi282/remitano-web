@@ -58,9 +58,9 @@ const Home = () => {
             if (data && data.status && data.status.code === 1) {
                 getUrlList("", 0, 10, 'id', 'desc');
             } else {
+                hideLoader()
                 dispatch({type: 'errors', value: data.status.message})
             }
-            hideLoader()
         })
         
     }
