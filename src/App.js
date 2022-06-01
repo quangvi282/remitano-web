@@ -2,9 +2,6 @@ import React, {useState} from 'react'
 import './App.css';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import Home from './pages/home/Home';
-// import ScrollToTop from './components/ScrollToTop';
-// import { FooterContainer } from './components/FooterSection';
-// import SignIn from './pages/login/SignIn';
 import ProvideAuth from './security/ProvideAuth';
 import  AuthRoute from './security/AuthRoute';
 import './interceptors/interceptors'

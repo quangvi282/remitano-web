@@ -3,10 +3,12 @@ import { useLocation, useHistory } from "react-router-dom";
 import {InputText} from 'primereact/inputtext';
 import { Password } from 'primereact/password';
 import { Button} from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
 import { AppContext } from '../../context/AppContext';
 import './Home.css';
 import { AccountServices } from './AccountServices';
 import { UrlShareServices } from './UrlShareServices';
+import {youtubeParser} from '../../utils/Utils'
 
 const Home = () => {
 
@@ -22,7 +24,9 @@ const Home = () => {
     const initialState = {
         email: null,
         password: null,
-        errors: null
+        errors: null,
+        url: null,
+        isSharing: false
     }
 
     const reducer = (state, action) => {
@@ -36,14 +40,14 @@ const Home = () => {
     }
 
     const [state, dispatch] = useReducer(reducer, initialState);
-    const { email, password, errors } = state;
+    const { email, password, errors, url, isSharing } = state;
 
 
-     const accountServices = new AccountServices();
+    const accountServices = new AccountServices();
     const urlshareServices = new UrlShareServices();
 
     useEffect(() => {
-        getUrlList("", 0, 10, 'title', 'desc');
+        getUrlList("", 0, 10, 'id', 'desc');
     }, [token]);
 
     const shareAction = (url) => {
@@ -61,10 +65,11 @@ const Home = () => {
 
     const shareMovieRequest = (url, thumbnail, title) => {
         showLoader();
-        urlshareServices.updateShared(url, thumbnail, title)
+        let videoId = youtubeParser(url)
+        urlshareServices.updateShared(videoId, thumbnail, title)
         .then(data => {
             if (data && data.status && data.status.code === 1) {
-
+                getUrlList("", 0, 10, 'id', 'desc');
             } else {
                 dispatch({type: 'errors', value: data.status.message})
             }
@@ -169,14 +174,42 @@ const Home = () => {
                 <div className="p-formgroup-inline" style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                     <span style={{fontSize: 20, fontWeight: 'bold', marginRight: 10}}>Welcome {email}</span>
                     <Button className='share-button' type="button" label="Share a movie"  style={{margin: 5}} 
-                    // onClick={(e) => requestLogout(e)}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        dispatch({type: 'isSharing', value: true})
+                    }}
                     />
                     <Button type="button" label="Logout"  style={{margin: 5}} 
                     onClick={(e) => requestLogout(e)}/>
                 </div>}
             </div>
             
-            <div style={{height: 3, width: '90%', background: 'black'}}/>
+            <div style={{height: 3, width: '90%', background: 'black', marginBottom: 20}}/>
+            {urlShareds.length > 0 && urlShareds.map(item => (
+                <div className="p-grid p-col-12" style={{display: 'flex', justifyContent: 'center', margin: 10}}>
+                    <div className="p-col-12 p-md-6 p-lg-6" style={{display: 'flex', justifyContent: 'center'}}>
+                        <iframe width="420" height="315"
+                        src={"https://www.youtube.com/embed/" + item.videoId}>
+                        </iframe>
+                    </div>
+                    <div className="p-col-12 p-md-6 p-lg-6 normal-text" style={{display: 'flex', alignItems: 'center'}}>
+                        <div style={{with: '100%', }}>{item.title}
+                            <p style={{fontStyle: 'italic'}}>Shared by <span style={{fontWeight: 'bold'}}>{item.username}</span></p>
+                        </div>
+                        <div></div>
+                    </div>
+                </div>
+            ))}
+            <Dialog visible={isSharing} style={{ width: '450px' }} header="Share a movie" modal onHide={() => dispatch({type: 'isSharing', value: false})}>
+                <div className="p-grid" style={{display: 'flex', justifyContent: 'center'}}>
+                <div className="p-col-12"><InputText value={url} onChange={onChange} name="url" placeholder="https://youtube.com/example" style={{width: '100%'}}/></div>
+                    <Button label="Share" style={{marginTop: '10px'}} onClick={e => {
+                        e.preventDefault();
+                        dispatch({type: 'isSharing', value: false})
+                        shareAction(url)
+                    }}/>
+                </div>
+            </Dialog>
         </div>
     )
 }

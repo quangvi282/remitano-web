@@ -15,9 +15,9 @@ export class UrlShareServices  {
         .then(res => res.data).catch(error => console.log(error));
     }
 
-    updateShared(url, thumbnail, title) {
+    updateShared(videoId, thumbnail, title) {
         return axios.post(`${API_BASE_URL}/api/share/update`, null, {
-            params: {url, thumbnail, title}
+            params: {videoId, thumbnail, title}
         })
         .then(res => res.data).catch(error => console.log(error))
     }

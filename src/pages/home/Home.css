@@ -13,3 +13,16 @@
     background: #fff!important;
     color: #814ead!important;
 }
+
+
+.home-container .normal-text {
+    font-family: Zilla Slab;
+    font-style: normal;
+    /* font-weight: bold; */
+    font-size: 22px;
+    line-height: 120%;
+    /* or 42px */
+    text-align: left;
+
+    /* color: #6E2E40; */
+}
