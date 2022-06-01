@@ -52,21 +52,8 @@ const Home = () => {
 
     const shareAction = (url) => {
         showLoader();
-        urlshareServices.getMetaData(url)
-        .then(data => {
-            if (data) {
-                shareMovieRequest(url, data.thumbnail_url, data.title)
-            } else {
-                dispatch({type: 'errors', value: 'Url isnot exist!'})
-                hideLoader();
-            }
-        })
-    }
-
-    const shareMovieRequest = (url, thumbnail, title) => {
-        showLoader();
         let videoId = youtubeParser(url)
-        urlshareServices.updateShared(videoId, thumbnail, title)
+        urlshareServices.updateShared(videoId)
         .then(data => {
             if (data && data.status && data.status.code === 1) {
                 getUrlList("", 0, 10, 'id', 'desc');
@@ -75,6 +62,13 @@ const Home = () => {
             }
             hideLoader()
         })
+        
+    }
+
+    const getTitle = (url) => {
+        let data = urlshareServices.getMetaData(url);
+        return data ? data.title : ""
+
     }
 
     const getUrlList = (search, page, size, column, order) => {
@@ -193,7 +187,7 @@ const Home = () => {
                         </iframe>
                     </div>
                     <div className="p-col-12 p-md-6 p-lg-6 normal-text" style={{display: 'flex', alignItems: 'center'}}>
-                        <div style={{with: '100%', }}>{item.title}
+                        <div style={{with: '100%', }}>{getTitle("https://youtu.be/" + item.videoId)}
                             <p style={{fontStyle: 'italic'}}>Shared by <span style={{fontWeight: 'bold'}}>{item.username}</span></p>
                         </div>
                         <div></div>
