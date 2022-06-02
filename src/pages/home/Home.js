@@ -59,7 +59,7 @@ const Home = () => {
                 getUrlList("", 0, 10, 'id', 'desc');
             } else {
                 hideLoader()
-                dispatch({type: 'errors', value: data.status.message})
+                dispatch({type: 'errors', value: data ? data.status.message: "Error system"})
             }
         })
         
