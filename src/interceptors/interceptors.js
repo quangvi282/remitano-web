@@ -12,7 +12,6 @@ axios.interceptors.request.use((config) => {
         const basePath = getBasePath(config.url);
         if (!whitelist.includes(basePath) && localStorage.getItem('token') !== null) {
             config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`;
-            config.headers.Origin = 'https://remitano-web.herokuapp.com/'
         }
         return config;
     }, function (error) {
