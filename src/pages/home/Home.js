@@ -161,7 +161,7 @@ const Home = () => {
                 <><div className="p-formgroup-inline" style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                     <InputText value={email} onChange={onChange} name="email" placeholder="Email" style={{margin: 5}}/>
                     <Password value={password} onChange={onChange} name="password" placeholder="Password" style={{margin: 5}} />
-                    <Button type="button" label="Login" style={{margin: 5}} onClick={(e) => {
+                    <div className='p-grid p-col-12'><Button type="button" label="Login" style={{margin: 5}} onClick={(e) => {
                         e.preventDefault();
                         requestLogin(email, password)
                     }}/>
@@ -169,7 +169,7 @@ const Home = () => {
                     onClick={(e) => {
                         e.preventDefault();
                         requestRegister(email, password);
-                    }}/>
+                    }}/></div>
                 </div> <div className="p-col-12 p-text-center home-errors">
                             {errors}
                         </div></>: 
