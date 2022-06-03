@@ -65,8 +65,8 @@ const Home = () => {
         
     }
 
-    const getTitle = (url) => {
-        let data = urlshareServices.getMetaData(url);
+    async function getTitle (url) {
+        let data = await urlshareServices.getMetaData(url);
         return data ? data.title : ""
 
     }
