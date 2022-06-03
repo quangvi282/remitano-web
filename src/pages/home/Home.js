@@ -65,13 +65,13 @@ const Home = () => {
         
     }
 
-    async function getTitle (url) {
-        let data = await urlshareServices.getMetaData(url);
+    const getTitle = (url) => {
+        let data = urlshareServices.getMetaData(url);
         return data ? data.title : ""
 
     }
 
-    const getUrlList = (search, page, size, column, order) => {
+    const getUrlList = async (search, page, size, column, order) => {
         showLoader();
         urlshareServices.getSharedList(search, page, size, column, order)
         .then(data => {
@@ -79,7 +79,7 @@ const Home = () => {
                 let metaUrls = [];
                 data.urlSharedList.map(item => {
                     let tmp = {...item};
-                    tmp.title = getTitle("https://youtu.be/" + item.videoId);
+                    tmp.title = await getTitle("https://youtu.be/" + item.videoId);
                     metaUrls.push(tmp);
                 })
                 setUrlShareds(metaUrls);   
