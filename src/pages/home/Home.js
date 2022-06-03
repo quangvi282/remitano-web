@@ -79,7 +79,7 @@ const Home = () => {
                 let metaUrls = [];
                 data.urlSharedList.map(item => {
                     let tmp = {...item};
-                    tmp.title = await getTitle("https://youtu.be/" + item.videoId);
+                    tmp.title = getTitle("https://youtu.be/" + item.videoId);
                     metaUrls.push(tmp);
                 })
                 setUrlShareds(metaUrls);   
