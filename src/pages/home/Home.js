@@ -76,7 +76,13 @@ const Home = () => {
         urlshareServices.getSharedList(search, page, size, column, order)
         .then(data => {
             if (data && data.status && data.status.code === 1) {
-                setUrlShareds(data.urlSharedList);   
+                let metaUrls = [];
+                data.urlSharedList.map(item => {
+                    let tmp = {...item};
+                    tmp.title = getTitle("https://youtu.be/" + item.videoId);
+                    metaUrls.push(tmp);
+                })
+                setUrlShareds(metaUrls);   
                 setTotal(data.total)
             } else {
                 dispatch({type: 'errors', value: data.status.message})
@@ -187,7 +193,7 @@ const Home = () => {
                         </iframe>
                     </div>
                     <div className="p-col-12 p-md-6 p-lg-6 normal-text" style={{display: 'flex', alignItems: 'center'}}>
-                        <div style={{with: '100%', }}>{getTitle("https://youtu.be/" + item.videoId)}
+                        <div style={{with: '100%', }}>{item.title}
                             <p style={{fontStyle: 'italic'}}>Shared by <span style={{fontWeight: 'bold'}}>{item.username}</span></p>
                         </div>
                         <div></div>
