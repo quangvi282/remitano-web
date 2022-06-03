@@ -73,7 +73,7 @@ const Home = () => {
 
     const getUrlList = async (search, page, size, column, order) => {
         showLoader();
-        urlshareServices.getSharedList(search, page, size, column, order)
+        await urlshareServices.getSharedList(search, page, size, column, order)
         .then(data => {
             if (data && data.status && data.status.code === 1) {
                 let metaUrls = [];
