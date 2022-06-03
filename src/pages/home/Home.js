@@ -52,8 +52,19 @@ const Home = () => {
 
     const shareAction = (url) => {
         showLoader();
-        let videoId = youtubeParser(url)
-        urlshareServices.updateShared(videoId)
+        urlshareServices.getMetaData(url)
+        .then(data => {
+            if (data) {
+                let videoId = youtubeParser(url)
+                shareData(videoId, data.title)
+            }
+        })
+        
+        
+    }
+
+    const shareData = (videoId, title) => {
+        urlshareServices.updateShared(videoId, title)
         .then(data => {
             if (data && data.status && data.status.code === 1) {
                 getUrlList("", 0, 10, 'id', 'desc');
@@ -62,28 +73,18 @@ const Home = () => {
                 dispatch({type: 'errors', value: data ? data.status.message: "Error system"})
             }
         })
-        
     }
 
-    const getTitle = (url) => {
-        let data = urlshareServices.getMetaData(url);
-        return data ? data.title : ""
-
-    }
-
-    const getUrlList = async (search, page, size, column, order) => {
+    const getUrlList = (search, page, size, column, order) => {
         showLoader();
-        await urlshareServices.getSharedList(search, page, size, column, order)
-        .then(data => {
+        urlshareServices.getSharedList(search, page, size, column, order)
+        .then( data => {
             if (data && data.status && data.status.code === 1) {
-                let metaUrls = [];
-                data.urlSharedList.map(item => {
-                    let tmp = {...item};
-                    tmp.title = getTitle("https://youtu.be/" + item.videoId);
-                    metaUrls.push(tmp);
-                })
-                setUrlShareds(metaUrls);   
+                setUrlShareds(data.urlSharedList)
                 setTotal(data.total)
+                if (data.user) {
+                    dispatch({type: 'email', value: data.user.username});
+                }
             } else {
                 dispatch({type: 'errors', value: data.status.message})
             }

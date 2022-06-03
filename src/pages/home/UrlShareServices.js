@@ -12,12 +12,19 @@ export class UrlShareServices  {
 
     getMetaData (url) {
         return axios.get(`https://youtube.com/oembed?url=${url}&format=json`)
-        .then(res => res.data).catch(error => console.log(error));
+        .then(res => {
+            let result = res.data;
+            return result;
+        },
+        (error) => {
+            console.error(error);
+            throw error;
+        });
     }
 
-    updateShared(videoId) {
+    updateShared(videoId, title) {
         return axios.post(`${API_BASE_URL}/api/share/update`, null, {
-            params: {videoId}
+            params: {videoId, title}
         })
         .then(res => res.data).catch(error => console.log(error))
     }
