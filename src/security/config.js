@@ -1,1 +1,1 @@
-export const whitelist = ['signin', 'signup', 'oembed', "url"]
+export const whitelist = ['signin', 'signup', 'oembed']
