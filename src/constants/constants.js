@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export const API_BASE_URL = process.env.REACT_APP_API_URL !== null ? process.env.REACT_APP_API_URL : 'https://remitano-backend.herokuapp.com'
+export const API_BASE_URL = process.env.REACT_APP_API_URL ? process.env.REACT_APP_API_URL : 'https://remitano-backend.herokuapp.com'
 
 function getWindowDimensions() {
     const { innerWidth: width, innerHeight: height } = window;
