@@ -67,6 +67,7 @@ const Home = () => {
         urlshareServices.updateShared(videoId, title)
         .then(data => {
             if (data && data.status && data.status.code === 1) {
+                dispatch({type: 'url', value: null})
                 getUrlList("", 0, 10, 'id', 'desc');
             } else {
                 hideLoader()
